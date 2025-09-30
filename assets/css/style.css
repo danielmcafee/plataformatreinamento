@@ -866,3 +866,169 @@ footer a:hover {
     background: var(--primary-color);
     color: white;
 }
+
+/* Widgets do Curso */
+.progress-circle {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 50%;
+    background: conic-gradient(var(--primary-color) 0deg, var(--primary-color) calc(var(--progress, 0) * 3.6deg), #e5e7eb calc(var(--progress, 0) * 3.6deg));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-circle-inner {
+    width: 90px;
+    height: 90px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.progress-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.stat-item {
+    padding: 1rem 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.stat-item:hover {
+    background: #f8fafc;
+    transform: translateY(-2px);
+}
+
+.stat-item i {
+    display: block;
+}
+
+.stat-item h5 {
+    font-weight: 700;
+    color: var(--gray-800);
+}
+
+.stat-item small {
+    font-weight: 500;
+    color: var(--gray-600);
+}
+
+/* Melhorias para o layout de 2 colunas */
+.container-fluid {
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+@media (min-width: 1200px) {
+    .container-fluid {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+/* Cards de widgets */
+.card {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background: #f8fafc;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 1rem 1.5rem;
+}
+
+.card-header h5,
+.card-header h6 {
+    margin: 0;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+/* Lista de aulas melhorada */
+.list-group-item {
+    border: none;
+    border-bottom: 1px solid #f1f5f9;
+    padding: 1.25rem 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.list-group-item:hover {
+    background: #f8fafc;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+/* Badges melhorados */
+.badge {
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+}
+
+/* Botões de ação */
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Responsividade para widgets */
+@media (max-width: 991px) {
+    .col-lg-4 {
+        margin-top: 2rem;
+    }
+    
+    .progress-circle {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .progress-circle-inner {
+        width: 75px;
+        height: 75px;
+    }
+    
+    .progress-text {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-fluid {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .list-group-item {
+        padding: 1rem;
+    }
+    
+    .stat-item {
+        padding: 0.75rem 0.25rem;
+    }
+}

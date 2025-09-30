@@ -67,7 +67,7 @@ foreach($aulas as $aula) {
 $progresso = $total_aulas > 0 ? round(($aulas_concluidas / $total_aulas) * 100) : 0;
 ?>
 
-<div class="container py-4">
+<div class="container-fluid py-4">
     <!-- Cabeçalho do Curso -->
     <div class="row mb-4">
         <div class="col-12">
@@ -75,26 +75,38 @@ $progresso = $total_aulas > 0 ? round(($aulas_concluidas / $total_aulas) * 100) 
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-md-8">
-                            <h1 class="card-title"><?php echo htmlspecialchars($curso['titulo']); ?></h1>
-                            <p class="card-text text-muted"><?php echo htmlspecialchars($curso['descricao']); ?></p>
-                            <div class="d-flex align-items-center text-muted">
-                                <i class="fas fa-user me-2"></i>
-                                <span>Instrutor: <?php echo htmlspecialchars($curso['gestor_nome']); ?></span>
-                                <i class="fas fa-play-circle ms-3 me-2"></i>
-                                <span><?php echo $total_aulas; ?> aulas</span>
+                            <h1 class="card-title mb-3"><?php echo htmlspecialchars($curso['titulo']); ?></h1>
+                            <p class="card-text text-muted mb-3"><?php echo htmlspecialchars($curso['descricao']); ?></p>
+                            <div class="d-flex align-items-center text-muted flex-wrap">
+                                <div class="d-flex align-items-center me-4 mb-2">
+                                    <i class="fas fa-user me-2 text-primary"></i>
+                                    <span>Instrutor: <?php echo htmlspecialchars($curso['gestor_nome']); ?></span>
+                                </div>
+                                <div class="d-flex align-items-center me-4 mb-2">
+                                    <i class="fas fa-play-circle me-2 text-success"></i>
+                                    <span><?php echo $total_aulas; ?> aulas</span>
+                                </div>
+                                <div class="d-flex align-items-center me-4 mb-2">
+                                    <i class="fas fa-clock me-2 text-info"></i>
+                                    <span>Duração: <?php echo array_sum(array_column($aulas, 'duracao')); ?> min</span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4 text-md-end">
                             <?php if(isset($_SESSION['usuario_id'])): ?>
                             <div class="mb-3">
-                                <div class="progress" style="height: 10px;">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-muted">Progresso do Curso</span>
+                                    <span class="fw-bold text-primary"><?php echo $progresso; ?>%</span>
+                                </div>
+                                <div class="progress" style="height: 12px;">
                                     <div class="progress-bar" role="progressbar" 
                                          style="width: <?php echo $progresso; ?>%" 
                                          aria-valuenow="<?php echo $progresso; ?>" 
                                          aria-valuemin="0" aria-valuemax="100">
                                     </div>
                                 </div>
-                                <small class="text-muted"><?php echo $progresso; ?>% concluído</small>
+                                <small class="text-muted"><?php echo $aulas_concluidas; ?> de <?php echo $total_aulas; ?> aulas concluídas</small>
                             </div>
                             <?php endif; ?>
                             
@@ -111,10 +123,11 @@ $progresso = $total_aulas > 0 ? round(($aulas_concluidas / $total_aulas) * 100) 
         </div>
     </div>
 
-    <!-- Lista de Aulas -->
+    <!-- Layout de 2 Colunas -->
     <div class="row">
-        <div class="col-12">
-            <div class="card">
+        <!-- Coluna Principal - Aulas -->
+        <div class="col-lg-8">
+            <div class="card mb-4">
                 <div class="card-header">
                     <h5 class="mb-0">
                         <i class="fas fa-list me-2"></i>
@@ -134,11 +147,11 @@ $progresso = $total_aulas > 0 ? round(($aulas_concluidas / $total_aulas) * 100) 
                         <div class="list-group-item">
                             <div class="row align-items-center">
                                 <div class="col-md-1 text-center">
-                                    <span class="badge bg-primary rounded-circle" style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                    <span class="badge bg-primary rounded-circle" style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
                                         <?php echo $index + 1; ?>
                                     </span>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-7">
                                     <h6 class="mb-1">
                                         <?php echo htmlspecialchars($aula['titulo']); ?>
                                         <?php if($aula['concluida']): ?>
@@ -161,7 +174,7 @@ $progresso = $total_aulas > 0 ? round(($aulas_concluidas / $total_aulas) * 100) 
                                         <?php endif; ?>
                                     </div>
                                 </div>
-                                <div class="col-md-3 text-md-end">
+                                <div class="col-md-4 text-md-end">
                                     <?php if(isset($_SESSION['usuario_id'])): ?>
                                     <button class="btn btn-primary btn-sm" 
                                             onclick="abrirAula(<?php echo $aula['id']; ?>, '<?php echo $aula['tipo']; ?>')">
@@ -180,6 +193,145 @@ $progresso = $total_aulas > 0 ? round(($aulas_concluidas / $total_aulas) * 100) 
                         <?php endforeach; ?>
                     </div>
                     <?php endif; ?>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coluna Lateral - Widgets -->
+        <div class="col-lg-4">
+            <!-- Widget de Progresso -->
+            <?php if(isset($_SESSION['usuario_id'])): ?>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-chart-pie me-2"></i>
+                        Seu Progresso
+                    </h6>
+                </div>
+                <div class="card-body text-center">
+                    <div class="progress-circle mb-3">
+                        <div class="progress-circle-inner">
+                            <span class="progress-text"><?php echo $progresso; ?>%</span>
+                        </div>
+                    </div>
+                    <h6 class="mb-2"><?php echo $aulas_concluidas; ?> de <?php echo $total_aulas; ?> aulas</h6>
+                    <p class="text-muted small mb-0">Concluídas</p>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <!-- Widget de Estatísticas -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>
+                        Estatísticas do Curso
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6 mb-3">
+                            <div class="stat-item">
+                                <i class="fas fa-play-circle fa-2x text-primary mb-2"></i>
+                                <h5 class="mb-0"><?php echo $total_aulas; ?></h5>
+                                <small class="text-muted">Aulas</small>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="stat-item">
+                                <i class="fas fa-clock fa-2x text-success mb-2"></i>
+                                <h5 class="mb-0"><?php echo array_sum(array_column($aulas, 'duracao')); ?></h5>
+                                <small class="text-muted">Minutos</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-item">
+                                <i class="fas fa-video fa-2x text-danger mb-2"></i>
+                                <h5 class="mb-0"><?php echo count(array_filter($aulas, fn($a) => $a['tipo'] == 'video')); ?></h5>
+                                <small class="text-muted">Vídeos</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-item">
+                                <i class="fas fa-file fa-2x text-info mb-2"></i>
+                                <h5 class="mb-0"><?php echo count(array_filter($aulas, fn($a) => $a['tipo'] == 'documento')); ?></h5>
+                                <small class="text-muted">Documentos</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Widget de Próximas Aulas -->
+            <?php if(!empty($aulas)): ?>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-clock me-2"></i>
+                        Próximas Aulas
+                    </h6>
+                </div>
+                <div class="card-body p-0">
+                    <?php 
+                    $proximas_aulas = array_slice($aulas, 0, 3);
+                    foreach($proximas_aulas as $index => $aula): 
+                    ?>
+                    <div class="d-flex align-items-center p-3 border-bottom">
+                        <div class="me-3">
+                            <span class="badge bg-light text-dark rounded-circle" style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                <?php echo $index + 1; ?>
+                            </span>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1 small"><?php echo htmlspecialchars(substr($aula['titulo'], 0, 30)) . (strlen($aula['titulo']) > 30 ? '...' : ''); ?></h6>
+                            <small class="text-muted">
+                                <i class="fas fa-<?php echo $aula['tipo'] == 'video' ? 'play' : ($aula['tipo'] == 'documento' ? 'file' : 'question-circle'); ?> me-1"></i>
+                                <?php echo ucfirst($aula['tipo']); ?>
+                            </small>
+                        </div>
+                        <?php if($aula['concluida']): ?>
+                        <i class="fas fa-check-circle text-success"></i>
+                        <?php endif; ?>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <!-- Widget de Ações Rápidas -->
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-bolt me-2"></i>
+                        Ações Rápidas
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="cursos.php" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Voltar aos Cursos
+                        </a>
+                        <?php if(isset($_SESSION['usuario_id'])): ?>
+                        <a href="meus-cursos.php" class="btn btn-outline-success btn-sm">
+                            <i class="fas fa-graduation-cap me-2"></i>
+                            Meus Cursos
+                        </a>
+                        <a href="perfil.php" class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-user me-2"></i>
+                            Meu Perfil
+                        </a>
+                        <?php else: ?>
+                        <a href="auth/login.php" class="btn btn-primary btn-sm">
+                            <i class="fas fa-sign-in-alt me-2"></i>
+                            Fazer Login
+                        </a>
+                        <a href="auth/cadastro.php" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-user-plus me-2"></i>
+                            Criar Conta
+                        </a>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -209,6 +361,15 @@ $progresso = $total_aulas > 0 ? round(($aulas_concluidas / $total_aulas) * 100) 
 
 <script>
 let aulaAtual = null;
+
+// Inicializar círculo de progresso
+document.addEventListener('DOMContentLoaded', function() {
+    const progressCircle = document.querySelector('.progress-circle');
+    if (progressCircle) {
+        const progress = <?php echo $progresso; ?>;
+        progressCircle.style.setProperty('--progress', progress);
+    }
+});
 
 function abrirAula(aulaId, tipo) {
     aulaAtual = aulaId;
