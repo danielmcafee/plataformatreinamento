@@ -147,9 +147,9 @@ if($db) {
     </div>
 </section>
 
-<!-- Estatísticas e Gráficos -->
+<!-- Dashboard Principal -->
 <section class="py-5">
-    <div class="container">
+    <div class="container-fluid">
         <!-- Cards de Estatísticas -->
         <div class="row mb-5">
             <div class="col-lg-3 col-md-6 mb-4">
@@ -206,10 +206,12 @@ if($db) {
             </div>
         </div>
 
-        <!-- Gráficos de Desempenho -->
+        <!-- Layout de 2 Colunas -->
         <div class="row">
-            <div class="col-lg-8 mb-4">
-                <div class="card">
+            <!-- Coluna Principal - Gráficos -->
+            <div class="col-lg-8">
+                <!-- Gráfico de Progresso por Mês -->
+                <div class="card mb-4">
                     <div class="card-header">
                         <h5 class="mb-0">
                             <i class="fas fa-chart-line me-2"></i>
@@ -220,26 +222,9 @@ if($db) {
                         <canvas id="progressoChart" height="100"></canvas>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 mb-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">
-                            <i class="fas fa-chart-pie me-2"></i>
-                            Tipos de Aulas
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="tiposAulasChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Cursos Populares -->
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
+                <!-- Cursos Populares -->
+                <div class="card mb-4">
                     <div class="card-header">
                         <h5 class="mb-0">
                             <i class="fas fa-trophy me-2"></i>
@@ -251,13 +236,153 @@ if($db) {
                     </div>
                 </div>
             </div>
+
+            <!-- Coluna Lateral - Widgets -->
+            <div class="col-lg-4">
+                <!-- Widget de Tipos de Aulas -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-chart-pie me-2"></i>
+                            Tipos de Aulas
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="tiposAulasChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Widget de Estatísticas Rápidas -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-chart-bar me-2"></i>
+                            Estatísticas Rápidas
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-6 mb-3">
+                                <div class="stat-item">
+                                    <i class="fas fa-video fa-2x text-danger mb-2"></i>
+                                    <h5 class="mb-0"><?php echo count(array_filter($chart_data['tipos_aulas'], fn($t) => $t['tipo'] == 'video')); ?></h5>
+                                    <small class="text-muted">Vídeos</small>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="stat-item">
+                                    <i class="fas fa-file fa-2x text-info mb-2"></i>
+                                    <h5 class="mb-0"><?php echo count(array_filter($chart_data['tipos_aulas'], fn($t) => $t['tipo'] == 'documento')); ?></h5>
+                                    <small class="text-muted">Documentos</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-item">
+                                    <i class="fas fa-question-circle fa-2x text-warning mb-2"></i>
+                                    <h5 class="mb-0"><?php echo count(array_filter($chart_data['tipos_aulas'], fn($t) => $t['tipo'] == 'questionario')); ?></h5>
+                                    <small class="text-muted">Questionários</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-item">
+                                    <i class="fas fa-clock fa-2x text-success mb-2"></i>
+                                    <h5 class="mb-0"><?php echo round($stats['total_aulas'] * 15); ?></h5>
+                                    <small class="text-muted">Min Total</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget de Ações Rápidas -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-bolt me-2"></i>
+                            Ações Rápidas
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <?php if(isset($_SESSION['usuario_id'])): ?>
+                            <a href="meus-cursos.php" class="btn btn-primary btn-sm">
+                                <i class="fas fa-graduation-cap me-2"></i>
+                                Meus Cursos
+                            </a>
+                            <a href="perfil.php" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-user me-2"></i>
+                                Meu Perfil
+                            </a>
+                            <a href="cursos.php" class="btn btn-outline-success btn-sm">
+                                <i class="fas fa-list me-2"></i>
+                                Ver Todos os Cursos
+                            </a>
+                            <?php else: ?>
+                            <a href="auth/login.php" class="btn btn-primary btn-sm">
+                                <i class="fas fa-sign-in-alt me-2"></i>
+                                Fazer Login
+                            </a>
+                            <a href="auth/cadastro.php" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-user-plus me-2"></i>
+                                Criar Conta
+                            </a>
+                            <a href="cursos.php" class="btn btn-outline-success btn-sm">
+                                <i class="fas fa-list me-2"></i>
+                                Ver Cursos
+                            </a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget de Últimas Atividades -->
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-history me-2"></i>
+                            Últimas Atividades
+                        </h6>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item d-flex align-items-center">
+                                <div class="me-3">
+                                    <i class="fas fa-plus-circle text-success"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1 small">Novo curso adicionado</h6>
+                                    <small class="text-muted">Há 2 horas</small>
+                                </div>
+                            </div>
+                            <div class="list-group-item d-flex align-items-center">
+                                <div class="me-3">
+                                    <i class="fas fa-check-circle text-primary"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1 small">Aula concluída</h6>
+                                    <small class="text-muted">Há 4 horas</small>
+                                </div>
+                            </div>
+                            <div class="list-group-item d-flex align-items-center">
+                                <div class="me-3">
+                                    <i class="fas fa-user-plus text-info"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1 small">Novo usuário cadastrado</h6>
+                                    <small class="text-muted">Há 1 dia</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
 <!-- Cursos -->
 <section class="py-5">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <h2 class="text-center mb-5">Nossos Cursos</h2>
@@ -347,7 +472,7 @@ if($db) {
 
 <!-- Sobre -->
 <section class="py-5 bg-light">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <h2>Sobre a Plataforma</h2>
