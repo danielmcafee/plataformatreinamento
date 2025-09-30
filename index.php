@@ -122,26 +122,28 @@ if($db) {
 ?>
 
 <!-- Hero Section -->
-<section class="hero-section">
-    <div class="container">
+<section class="hero-section-subtle">
+    <div class="container-fluid">
         <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1>Plataforma de Treinamento</h1>
-                <p class="lead">Desenvolva suas competências e conhecimentos através dos nossos cursos online. 
+            <div class="col-lg-8">
+                <h1 class="hero-title">Plataforma de Treinamento</h1>
+                <p class="hero-subtitle">Desenvolva suas competências através dos nossos cursos online. 
                 Uma iniciativa da Prefeitura de Santa Rosa para capacitar seus servidores.</p>
                 <?php if(!isset($_SESSION['usuario_id'])): ?>
-                <div class="mt-4">
-                    <a href="auth/login.php" class="btn btn-light btn-lg me-3">
+                <div class="hero-actions">
+                    <a href="auth/login.php" class="btn btn-primary me-3">
                         <i class="fas fa-sign-in-alt me-2"></i>Entrar
                     </a>
-                    <a href="auth/cadastro.php" class="btn btn-outline-light btn-lg">
+                    <a href="auth/cadastro.php" class="btn btn-outline-primary">
                         <i class="fas fa-user-plus me-2"></i>Cadastrar
                     </a>
                 </div>
                 <?php endif; ?>
             </div>
-            <div class="col-lg-6 text-center">
-                <i class="fas fa-graduation-cap" style="font-size: 8rem; opacity: 0.3;"></i>
+            <div class="col-lg-4 text-center">
+                <div class="hero-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
             </div>
         </div>
     </div>

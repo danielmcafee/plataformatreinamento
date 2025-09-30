@@ -1101,7 +1101,137 @@ footer a:hover {
     max-height: 100%;
 }
 
-/* Hero section melhorada */
+/* Navbar Moderna */
+.navbar {
+    padding: 1rem 0;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    color: var(--gray-800) !important;
+    text-decoration: none;
+}
+
+.brand-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.brand-text {
+    font-weight: 700;
+    color: var(--gray-800);
+}
+
+.nav-link {
+    color: var(--gray-600) !important;
+    font-weight: 500;
+    padding: 0.75rem 1rem !important;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--primary-color) !important;
+    background: #f8fafc;
+}
+
+.nav-link.active {
+    color: var(--primary-color) !important;
+    background: #f1f5f9;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.875rem;
+}
+
+.dropdown-menu {
+    border-radius: 12px;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: #f8fafc;
+    color: var(--primary-color);
+}
+
+.navbar-toggler {
+    border: none;
+    padding: 0.25rem 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+/* Hero Section Discreta */
+.hero-section-subtle {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    padding: 3rem 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gray-800);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 1.125rem;
+    color: var(--gray-600);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.hero-icon {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    color: white;
+    font-size: 3rem;
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
+}
+
+/* Hero section original (mantida para compatibilidade) */
 .hero-section {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     color: white;
@@ -1153,6 +1283,16 @@ footer a:hover {
     .hero-section .lead {
         font-size: 1.1rem;
     }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-icon {
+        width: 100px;
+        height: 100px;
+        font-size: 2.5rem;
+    }
 }
 
 @media (max-width: 768px) {
@@ -1169,7 +1309,187 @@ footer a:hover {
         font-size: 2rem;
     }
     
+    .hero-section-subtle {
+        padding: 2rem 0;
+    }
+    
+    .hero-title {
+        font-size: 1.75rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .hero-actions .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .hero-icon {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+        margin-top: 1rem;
+    }
+    
     .chart-container {
         height: 250px;
+    }
+    
+    .navbar-brand {
+        font-size: 1.25rem;
+    }
+    
+    .brand-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .nav-link {
+        padding: 0.5rem 0.75rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 1.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.95rem;
+    }
+    
+    .brand-text {
+        display: none;
+    }
+    
+    .navbar-brand {
+        font-size: 1rem;
+    }
+}
+
+/* Estilos específicos para cursos.php */
+.course-card-modern {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.course-card-modern:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: var(--primary-color);
+}
+
+.course-image {
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.course-image-placeholder {
+    height: 200px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 0;
+}
+
+.course-meta {
+    padding: 0.75rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.progress-section {
+    background: #f8fafc;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.course-mini-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-color);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+}
+
+/* Header section para cursos */
+.bg-light {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f9 100%) !important;
+}
+
+/* Badges melhorados */
+.badge {
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+}
+
+/* Input group melhorado */
+.input-group-text {
+    background: #f8fafc;
+    border-color: #e5e7eb;
+    color: var(--gray-600);
+}
+
+.form-control {
+    border-color: #e5e7eb;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+}
+
+/* Responsividade para cursos */
+@media (max-width: 991px) {
+    .col-lg-4 {
+        margin-top: 2rem;
+    }
+    
+    .course-card-modern {
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .course-image,
+    .course-image-placeholder {
+        height: 150px;
+    }
+    
+    .course-meta,
+    .progress-section {
+        padding: 0.5rem;
+    }
+    
+    .stat-item {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .course-mini-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 0.875rem;
     }
 }
