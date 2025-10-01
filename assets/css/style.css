@@ -1389,12 +1389,6 @@ footer a:hover {
     border-color: var(--primary-color);
 }
 
-.course-image {
-    height: 200px;
-    object-fit: cover;
-    border-radius: 0;
-}
-
 .course-image-placeholder {
     height: 200px;
     background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
@@ -1473,7 +1467,6 @@ footer a:hover {
 }
 
 @media (max-width: 768px) {
-    .course-image,
     .course-image-placeholder {
         height: 150px;
     }

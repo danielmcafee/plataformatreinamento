@@ -11,7 +11,7 @@ $db = $database->getConnection();
 
 $cursos = [];
 if($db) {
-    $query = "SELECT c.id, c.titulo, c.descricao, c.imagem, c.status, c.data_criacao, c.gestor_id,
+    $query = "SELECT c.id, c.titulo, c.descricao, c.status, c.data_criacao, c.gestor_id,
               u.nome as gestor_nome,
               COUNT(a.id) as total_aulas,
               (SELECT COUNT(*) FROM progresso_usuarios pu
@@ -20,7 +20,7 @@ if($db) {
               LEFT JOIN aulas a ON c.id = a.curso_id AND a.ativo = 1
               LEFT JOIN usuarios u ON c.gestor_id = u.id
               WHERE c.status = 'ativo'
-              GROUP BY c.id, c.titulo, c.descricao, c.imagem, c.status, c.data_criacao, c.gestor_id, u.nome
+              GROUP BY c.id, c.titulo, c.descricao, c.status, c.data_criacao, c.gestor_id, u.nome
               ORDER BY c.data_criacao DESC";
     
     $stmt = $db->prepare($query);
@@ -195,14 +195,9 @@ if($db) {
             <?php foreach($cursos as $curso): ?>
             <div class="col-lg-3 col-md-4 col-sm-6 course-card mb-4">
                 <div class="card h-100 course-card-modern">
-                    <?php if($curso['imagem']): ?>
-                    <img src="<?php echo htmlspecialchars($curso['imagem']); ?>" 
-                         class="card-img-top course-image" alt="<?php echo htmlspecialchars($curso['titulo']); ?>">
-                    <?php else: ?>
                     <div class="card-img-top course-image-placeholder">
                         <i class="fas fa-graduation-cap fa-3x"></i>
                     </div>
-                    <?php endif; ?>
                     
                     <div class="card-body d-flex flex-column">
                         <div class="d-flex justify-content-between align-items-start mb-2">
