@@ -16,37 +16,21 @@ try {
     // Conectar ao MySQL sem especificar banco
     $pdo = new PDO("mysql:host=$host", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+    
     echo "<p>✓ Conectado ao MySQL</p>";
-
-    // Dropar banco se existir
-    try {
-        $pdo->exec("DROP DATABASE IF EXISTS `$database_name`");
-        echo "<p>✓ Banco antigo removido</p>";
-    } catch(PDOException $e) {
-        echo "<p>⚠ Banco não existia ou erro ao remover</p>";
-    }
-
-    // Criar banco
-    $pdo->exec("CREATE DATABASE `$database_name` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-    echo "<p>✓ Banco criado: $database_name</p>";
-
-    // Selecionar banco
-    $pdo->exec("USE `$database_name`");
-    echo "<p>✓ Banco selecionado</p>";
-
+    
     // Ler arquivo SQL
     $sql = file_get_contents('sql/database.sql');
-
+    
     if($sql === false) {
         throw new Exception("Erro ao ler arquivo sql/database.sql");
     }
-
+    
     echo "<p>✓ Arquivo SQL carregado</p>";
-
+    
     // Executar comandos SQL
     $statements = explode(';', $sql);
-
+    
     foreach($statements as $statement) {
         $statement = trim($statement);
         if(!empty($statement)) {

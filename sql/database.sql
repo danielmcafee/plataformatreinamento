@@ -18,6 +18,7 @@ CREATE TABLE cursos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(200) NOT NULL,
     descricao TEXT,
+    imagem VARCHAR(255),
     status ENUM('ativo', 'inativo') DEFAULT 'ativo',
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     gestor_id INT,

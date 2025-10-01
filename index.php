@@ -11,15 +11,16 @@ $db = $database->getConnection();
 
 $cursos = [];
 if($db) {
-    $query = "SELECT c.*, u.nome as gestor_nome, 
+    $query = "SELECT c.id, c.titulo, c.descricao, c.imagem, c.status, c.data_criacao, c.gestor_id,
+              u.nome as gestor_nome,
               COUNT(a.id) as total_aulas,
-              (SELECT COUNT(*) FROM progresso_usuarios pu 
+              (SELECT COUNT(*) FROM progresso_usuarios pu
                WHERE pu.curso_id = c.id AND pu.usuario_id = ? AND pu.concluida = 1) as aulas_concluidas
-              FROM cursos c 
+              FROM cursos c
               LEFT JOIN aulas a ON c.id = a.curso_id AND a.ativo = 1
               LEFT JOIN usuarios u ON c.gestor_id = u.id
               WHERE c.status = 'ativo'
-              GROUP BY c.id
+              GROUP BY c.id, c.titulo, c.descricao, c.imagem, c.status, c.data_criacao, c.gestor_id, u.nome
               ORDER BY c.data_criacao DESC";
     
     $stmt = $db->prepare($query);
