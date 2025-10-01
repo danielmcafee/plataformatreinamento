@@ -162,11 +162,24 @@ if($db) {
             </div>
         </div>
 
-        <!-- Layout de 2 Colunas para Cursos -->
+        <!-- Filtro de busca -->
+        <?php if(!empty($cursos)): ?>
+        <div class="row mb-4">
+            <div class="col-md-6 mx-auto">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Buscar cursos...">
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <!-- Grid de Cursos - Coluna Única -->
+        <?php if(empty($cursos)): ?>
         <div class="row">
-            <!-- Coluna Principal - Lista de Cursos -->
-            <div class="col-lg-8">
-                <?php if(empty($cursos)): ?>
+            <div class="col-12">
                 <div class="card">
                     <div class="card-body text-center py-5">
                         <i class="fas fa-graduation-cap fa-3x text-muted mb-3"></i>
@@ -174,235 +187,142 @@ if($db) {
                         <p class="text-muted">Novos cursos serão adicionados em breve.</p>
                     </div>
                 </div>
-                <?php else: ?>
-                
-                <!-- Filtro de busca -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-md-6">
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-search"></i>
-                                    </span>
-                                    <input type="text" class="form-control" id="searchInput" placeholder="Buscar cursos...">
-                                </div>
-                            </div>
-                            <div class="col-md-6 text-md-end">
-                                <small class="text-muted">
-                                    Mostrando <?php echo count($cursos); ?> curso(s)
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Grid de Cursos -->
-                <div class="row" id="cursosContainer">
-                    <?php foreach($cursos as $curso): ?>
-                    <div class="col-lg-6 col-md-6 course-card mb-4">
-                        <div class="card h-100 course-card-modern">
-                            <?php if($curso['imagem']): ?>
-                            <img src="<?php echo htmlspecialchars($curso['imagem']); ?>" 
-                                 class="card-img-top course-image" alt="<?php echo htmlspecialchars($curso['titulo']); ?>">
-                            <?php else: ?>
-                            <div class="card-img-top course-image-placeholder">
-                                <i class="fas fa-graduation-cap fa-3x"></i>
-                            </div>
-                            <?php endif; ?>
-                            
-                            <div class="card-body d-flex flex-column">
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <h5 class="card-title mb-0"><?php echo htmlspecialchars($curso['titulo']); ?></h5>
-                                    <span class="badge bg-primary"><?php echo $curso['total_aulas']; ?> aulas</span>
-                                </div>
-                                
-                                <p class="card-text text-muted mb-3"><?php echo htmlspecialchars($curso['descricao']); ?></p>
-                                
-                                <div class="course-meta mb-3">
-                                    <div class="d-flex align-items-center text-muted small">
-                                        <i class="fas fa-user me-2"></i>
-                                        <span>Instrutor: <?php echo htmlspecialchars($curso['gestor_nome']); ?></span>
-                                    </div>
-                                </div>
-                                
-                                <?php if(isset($_SESSION['usuario_id'])): ?>
-                                <?php 
-                                $progresso = $curso['total_aulas'] > 0 ? 
-                                    round(($curso['aulas_concluidas'] / $curso['total_aulas']) * 100) : 0;
-                                ?>
-                                <div class="progress-section mb-3">
-                                    <div class="d-flex justify-content-between align-items-center mb-1">
-                                        <small class="text-muted">Progresso</small>
-                                        <small class="fw-bold text-primary"><?php echo $progresso; ?>%</small>
-                                    </div>
-                                    <div class="progress" style="height: 6px;">
-                                        <div class="progress-bar" role="progressbar" 
-                                             style="width: <?php echo $progresso; ?>%" 
-                                             aria-valuenow="<?php echo $progresso; ?>" 
-                                             aria-valuemin="0" aria-valuemax="100">
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php endif; ?>
-                                
-                                <div class="mt-auto">
-                                    <a href="curso.php?id=<?php echo $curso['id']; ?>" 
-                                       class="btn btn-primary w-100">
-                                        <i class="fas fa-play me-2"></i>
-                                        <?php echo isset($_SESSION['usuario_id']) ? 'Continuar Curso' : 'Ver Curso'; ?>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-                <?php endif; ?>
             </div>
-
-            <!-- Coluna Lateral - Widgets -->
-            <div class="col-lg-4">
-                <!-- Widget de Estatísticas -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h6 class="mb-0">
-                            <i class="fas fa-chart-bar me-2"></i>
-                            Estatísticas
-                        </h6>
+        </div>
+        <?php else: ?>
+        <div class="row" id="cursosContainer">
+            <?php foreach($cursos as $curso): ?>
+            <div class="col-lg-3 col-md-4 col-sm-6 course-card mb-4">
+                <div class="card h-100 course-card-modern">
+                    <?php if($curso['imagem']): ?>
+                    <img src="<?php echo htmlspecialchars($curso['imagem']); ?>" 
+                         class="card-img-top course-image" alt="<?php echo htmlspecialchars($curso['titulo']); ?>">
+                    <?php else: ?>
+                    <div class="card-img-top course-image-placeholder">
+                        <i class="fas fa-graduation-cap fa-3x"></i>
                     </div>
-                    <div class="card-body">
-                        <div class="row text-center">
-                            <div class="col-6 mb-3">
-                                <div class="stat-item">
-                                    <i class="fas fa-graduation-cap fa-2x text-primary mb-2"></i>
-                                    <h5 class="mb-0"><?php echo $stats['total_cursos']; ?></h5>
-                                    <small class="text-muted">Cursos</small>
+                    <?php endif; ?>
+                    
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0"><?php echo htmlspecialchars($curso['titulo']); ?></h5>
+                            <span class="badge bg-primary"><?php echo $curso['total_aulas']; ?></span>
+                        </div>
+                        
+                        <p class="card-text text-muted mb-3"><?php echo htmlspecialchars(substr($curso['descricao'], 0, 100)) . (strlen($curso['descricao']) > 100 ? '...' : ''); ?></p>
+                        
+                        <div class="course-meta mb-3">
+                            <div class="d-flex align-items-center text-muted small">
+                                <i class="fas fa-user me-2"></i>
+                                <span><?php echo htmlspecialchars($curso['gestor_nome']); ?></span>
+                            </div>
+                        </div>
+                        
+                        <?php if(isset($_SESSION['usuario_id'])): ?>
+                        <?php 
+                        $progresso = $curso['total_aulas'] > 0 ? 
+                            round(($curso['aulas_concluidas'] / $curso['total_aulas']) * 100) : 0;
+                        ?>
+                        <div class="progress-section mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <small class="text-muted">Progresso</small>
+                                <small class="fw-bold text-primary"><?php echo $progresso; ?>%</small>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar" role="progressbar" 
+                                     style="width: <?php echo $progresso; ?>%" 
+                                     aria-valuenow="<?php echo $progresso; ?>" 
+                                     aria-valuemin="0" aria-valuemax="100">
                                 </div>
                             </div>
-                            <div class="col-6 mb-3">
-                                <div class="stat-item">
-                                    <i class="fas fa-play-circle fa-2x text-success mb-2"></i>
-                                    <h5 class="mb-0"><?php echo $stats['total_aulas']; ?></h5>
-                                    <small class="text-muted">Aulas</small>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="stat-item">
-                                    <i class="fas fa-users fa-2x text-info mb-2"></i>
-                                    <h5 class="mb-0"><?php echo $stats['total_usuarios']; ?></h5>
-                                    <small class="text-muted">Usuários</small>
-                                </div>
-                            </div>
-                            <?php if(isset($_SESSION['usuario_id'])): ?>
-                            <div class="col-6">
-                                <div class="stat-item">
-                                    <i class="fas fa-check-circle fa-2x text-warning mb-2"></i>
-                                    <h5 class="mb-0"><?php echo $stats['cursos_concluidos']; ?></h5>
-                                    <small class="text-muted">Concluídos</small>
-                                </div>
-                            </div>
-                            <?php endif; ?>
+                        </div>
+                        <?php endif; ?>
+                        
+                        <div class="mt-auto">
+                            <a href="curso.php?id=<?php echo $curso['id']; ?>" 
+                               class="btn btn-primary w-100">
+                                <i class="fas fa-play me-2"></i>
+                                <?php echo isset($_SESSION['usuario_id']) ? 'Acessar' : 'Ver Curso'; ?>
+                            </a>
                         </div>
                     </div>
                 </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
 
-                <!-- Widget de Ações Rápidas -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h6 class="mb-0">
-                            <i class="fas fa-bolt me-2"></i>
-                            Ações Rápidas
-                        </h6>
-                    </div>
+        <!-- Widgets no Final -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3 class="text-center mb-4">Visão Geral da Plataforma</h3>
+            </div>
+            
+            <!-- Cards de Estatísticas -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card text-center h-100">
                     <div class="card-body">
-                        <div class="d-grid gap-2">
-                            <?php if(isset($_SESSION['usuario_id'])): ?>
-                            <a href="meus-cursos.php" class="btn btn-primary btn-sm">
-                                <i class="fas fa-graduation-cap me-2"></i>
-                                Meus Cursos
-                            </a>
-                            <a href="perfil.php" class="btn btn-outline-primary btn-sm">
-                                <i class="fas fa-user me-2"></i>
-                                Meu Perfil
-                            </a>
-                            <a href="cursos.php" class="btn btn-outline-success btn-sm">
-                                <i class="fas fa-list me-2"></i>
-                                Ver Todos os Cursos
-                            </a>
-                            <?php else: ?>
-                            <a href="auth/login.php" class="btn btn-primary btn-sm">
+                        <i class="fas fa-graduation-cap fa-3x text-primary mb-3"></i>
+                        <h3 class="fw-bold"><?php echo $stats['total_cursos']; ?></h3>
+                        <p class="text-muted mb-0">Cursos Disponíveis</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-play-circle fa-3x text-success mb-3"></i>
+                        <h3 class="fw-bold"><?php echo $stats['total_aulas']; ?></h3>
+                        <p class="text-muted mb-0">Total de Aulas</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-users fa-3x text-info mb-3"></i>
+                        <h3 class="fw-bold"><?php echo $stats['total_usuarios']; ?></h3>
+                        <p class="text-muted mb-0">Usuários Ativos</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-check-circle fa-3x text-warning mb-3"></i>
+                        <h3 class="fw-bold"><?php echo $stats['aulas_concluidas']; ?></h3>
+                        <p class="text-muted mb-0">Aulas Concluídas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ações Rápidas -->
+        <?php if(!isset($_SESSION['usuario_id'])): ?>
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card bg-primary text-white">
+                    <div class="card-body text-center py-5">
+                        <h3 class="mb-3">Comece Hoje Mesmo!</h3>
+                        <p class="lead mb-4">Faça login ou cadastre-se para acessar todos os cursos disponíveis</p>
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <a href="auth/login.php" class="btn btn-light btn-lg">
                                 <i class="fas fa-sign-in-alt me-2"></i>
                                 Fazer Login
                             </a>
-                            <a href="auth/cadastro.php" class="btn btn-outline-primary btn-sm">
+                            <a href="auth/cadastro.php" class="btn btn-outline-light btn-lg">
                                 <i class="fas fa-user-plus me-2"></i>
                                 Criar Conta
                             </a>
-                            <a href="cursos.php" class="btn btn-outline-success btn-sm">
-                                <i class="fas fa-list me-2"></i>
-                                Ver Cursos
-                            </a>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Widget de Tipos de Aulas -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h6 class="mb-0">
-                            <i class="fas fa-chart-pie me-2"></i>
-                            Tipos de Aulas
-                        </h6>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="tiposAulasChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Widget de Últimas Atividades -->
-                <div class="card">
-                    <div class="card-header">
-                        <h6 class="mb-0">
-                            <i class="fas fa-history me-2"></i>
-                            Últimas Atividades
-                        </h6>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="list-group list-group-flush">
-                            <div class="list-group-item d-flex align-items-center">
-                                <div class="me-3">
-                                    <i class="fas fa-plus-circle text-success"></i>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 small">Novo curso adicionado</h6>
-                                    <small class="text-muted">Há 2 horas</small>
-                                </div>
-                            </div>
-                            <div class="list-group-item d-flex align-items-center">
-                                <div class="me-3">
-                                    <i class="fas fa-check-circle text-primary"></i>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 small">Aula concluída</h6>
-                                    <small class="text-muted">Há 4 horas</small>
-                                </div>
-                            </div>
-                            <div class="list-group-item d-flex align-items-center">
-                                <div class="me-3">
-                                    <i class="fas fa-user-plus text-info"></i>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 small">Novo usuário cadastrado</h6>
-                                    <small class="text-muted">Há 1 dia</small>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <?php endif; ?>
     </div>
 </section>
 
